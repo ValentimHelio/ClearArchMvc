@@ -1,0 +1,75 @@
+﻿Criando a solução e os projetos no VS 2019 Community  
+
+Visual Studio Community 2019 versão 16.9.1  
+
+Criação de uma solução e 5 projetos separados em camadas com responsabilidades definidas  
+
+- CleanArchMvc (Solution)
+  - CleanArchMvc.Domain: Modelo de domínio, regras de negócio, interfaces  
+  - CleanArchMvc.Application: Regras de domínio da aplicação, mapeamentos, serviços, DTOs, CQRS  
+  - CleanArchMvc.Infra.Data: EF Core, Contexto, Configurações, Migrations, Repository  
+  - CleanArchMvc.Infra.IoC: Dependency Injection, registro dos serviços, tempo de vida  
+  - CleanArchMvc.WebUI: MVC, Controllers, Views, Filtros, ViewModels (MVC)  
+
+O projeto CleanArchMvc.WebUI é do tipo ASP .NET Core Web App (Model-View-Controller)  
+Os demais projetos serão do tipo Class Library (.NET 8.0)
+
+=======================================================================================================
+
+Definindo o projeto – Escopo Geral – Relacionamento e dependência entre os projetos  
+
+- CleanArchMvc.Domain: Não possui nenhuma dependência  
+- CleanArchMvc.Application: Dependência com o projeto Domain  
+- CleanArchMvc.Infra.Data: Dependência com o projeto Domain  
+- CleanArchMvc.Infra.IoC: Dependência com os projetos Domain, Application, Infra.Data  
+- CleanArchMvc.WebUI: Dependência com o projeto Infra.IoC  
+
+Estrutura geral:  
+User Interface (WebUI)
+     ↓
+Infrastructure (Data/IoC)
+     ↓
+Domain/Application  
+
+Testes:  
+CleanArchMvc.Domain.Tests  
+xUnit Test Project
+
+=====================================================================================================
+
+Estrutura do Projeto – Componentes distribuídos por camadas e responsabilidade  
+
+DOMAIN  
+  - Entities: Product, Category, Entity  
+  - Interfaces: IProductRepository, ICategoryRepository  
+  - Validation  
+  - Account: IAuthenticate, ISeedUserRoleInitial, IUser  
+
+APPLICATION  
+  - Services: ProductService, CategoryService  
+  - DTOs: ProductDTO, CategoryDTO  
+  - CQRS: Command, Queries, Handlers  
+  - Mappings: DomainViewModel, ViewModelDomain  
+  - Interfaces: IProductService, ICategoryService  
+  - Exceptions  
+
+INFRA.DATA  
+  - Repositories: ProductRepository, CategoryRepository  
+  - Context: ApplicationDbContext  
+  - Migrations  
+  - Identity  
+
+INFRA.IOC  
+  - DependencyInjection  
+
+WEBUI  
+  - Controllers: AccountController, CategoriesController, ProductsController  
+  - Views  
+  - Filters  
+  - Components  
+  - ViewModels  
+  - MapConfig  
+
+Regra de dependência → camadas superiores dependem das inferiores.
+
+=========================================================================================================

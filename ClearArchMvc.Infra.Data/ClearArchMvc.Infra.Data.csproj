@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ClearArchMvc.Domain\ClearArchMvc.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
